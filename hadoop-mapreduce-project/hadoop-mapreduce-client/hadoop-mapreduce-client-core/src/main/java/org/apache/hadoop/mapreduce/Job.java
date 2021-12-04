@@ -50,7 +50,7 @@ import java.util.Map;
  *
  * <p>It allows the user to configure the
  * job, submit it, control its execution, and query the state. The set methods
- * only work until the job is submitted, afterwards they will throw an 
+ * only work until the job is submitted, afterwards they will throw an
  * IllegalStateException. </p>
  *
  * <p>
@@ -63,7 +63,7 @@ import java.util.Map;
  *     Job job = Job.getInstance();
  *     job.setJarByClass(MyJob.class);
  *
- *     // Specify various job-specific parameters     
+ *     // Specify various job-specific parameters
  *     job.setJobName("myjob");
  *
  *     job.setInputPath(new Path("in"));
@@ -75,8 +75,6 @@ import java.util.Map;
  *     // Submit the job, then poll for progress until the job is complete
  *     job.waitForCompletion(true);
  * </pre></blockquote>
- *
- *
  */
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
@@ -89,16 +87,24 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
     ;
     private static final long MAX_JOBSTATUS_AGE = 1000 * 2;
     public static final String OUTPUT_FILTER = "mapreduce.client.output.filter";
-    /** Key in mapred-*.xml that sets completionPollInvervalMillis */
+    /**
+     * Key in mapred-*.xml that sets completionPollInvervalMillis
+     */
     public static final String COMPLETION_POLL_INTERVAL_KEY =
             "mapreduce.client.completion.pollinterval";
 
-    /** Default completionPollIntervalMillis is 5000 ms. */
+    /**
+     * Default completionPollIntervalMillis is 5000 ms.
+     */
     static final int DEFAULT_COMPLETION_POLL_INTERVAL = 5000;
-    /** Key in mapred-*.xml that sets progMonitorPollIntervalMillis */
+    /**
+     * Key in mapred-*.xml that sets progMonitorPollIntervalMillis
+     */
     public static final String PROGRESS_MONITOR_POLL_INTERVAL_KEY =
             "mapreduce.client.progressmonitor.pollinterval";
-    /** Default progMonitorPollIntervalMillis is 1000 ms. */
+    /**
+     * Default progMonitorPollIntervalMillis is 1000 ms.
+     */
     static final int DEFAULT_MONITOR_POLL_INTERVAL = 1000;
 
     public static final String USED_GENERIC_PARSER =
@@ -178,11 +184,11 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
     /**
      * Creates a new {@link Job} with no particular {@link Cluster} and a
      * given {@link Configuration}.
-     *
+     * <p>
      * The <code>Job</code> makes a copy of the <code>Configuration</code> so
      * that any necessary internal modifications do not reflect on the incoming
      * parameter.
-     *
+     * <p>
      * A Cluster will be created from the conf parameter only when it's needed.
      *
      * @param conf the configuration
@@ -199,7 +205,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
     /**
      * Creates a new {@link Job} with no particular {@link Cluster} and a given jobName.
      * A Cluster will be created from the conf parameter only when it's needed.
-     *
+     * <p>
      * The <code>Job</code> makes a copy of the <code>Configuration</code> so
      * that any necessary internal modifications do not reflect on the incoming
      * parameter.
@@ -220,13 +226,13 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
      * Creates a new {@link Job} with no particular {@link Cluster} and given
      * {@link Configuration} and {@link JobStatus}.
      * A Cluster will be created from the conf parameter only when it's needed.
-     *
+     * <p>
      * The <code>Job</code> makes a copy of the <code>Configuration</code> so
      * that any necessary internal modifications do not reflect on the incoming
      * parameter.
      *
      * @param status job status
-     * @param conf job configuration
+     * @param conf   job configuration
      * @return the {@link Job} , with no connection to a cluster yet.
      * @throws IOException
      */
@@ -238,7 +244,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
     /**
      * Creates a new {@link Job} with no particular {@link Cluster}.
      * A Cluster will be created from the conf parameter only when it's needed.
-     *
+     * <p>
      * The <code>Job</code> makes a copy of the <code>Configuration</code> so
      * that any necessary internal modifications do not reflect on the incoming
      * parameter.
@@ -257,13 +263,13 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
      * Creates a new {@link Job} with no particular {@link Cluster} and given
      * {@link Configuration}.
      * A Cluster will be created from the conf parameter only when it's needed.
-     *
+     * <p>
      * The <code>Job</code> makes a copy of the <code>Configuration</code> so
      * that any necessary internal modifications do not reflect on the incoming
      * parameter.
      *
      * @param ignored
-     * @param conf job configuration
+     * @param conf    job configuration
      * @return the {@link Job} , with no connection to a cluster yet.
      * @throws IOException
      * @deprecated Use {@link #getInstance(Configuration)}
@@ -278,14 +284,14 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
      * Creates a new {@link Job} with no particular {@link Cluster} and given
      * {@link Configuration} and {@link JobStatus}.
      * A Cluster will be created from the conf parameter only when it's needed.
-     *
+     * <p>
      * The <code>Job</code> makes a copy of the <code>Configuration</code> so
      * that any necessary internal modifications do not reflect on the incoming
      * parameter.
      *
      * @param cluster cluster
-     * @param status job status
-     * @param conf job configuration
+     * @param status  job status
+     * @param conf    job configuration
      * @return the {@link Job} , with no connection to a cluster yet.
      * @throws IOException
      */
@@ -321,8 +327,10 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
         }
     }
 
-    /** Some methods need to update status immediately. So, refresh
+    /**
+     * Some methods need to update status immediately. So, refresh
      * immediately
+     *
      * @throws IOException
      */
     synchronized void updateStatus() throws IOException {
@@ -452,7 +460,9 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
         return cluster;
     }
 
-    /** Only for mocks in unit tests. */
+    /**
+     * Only for mocks in unit tests.
+     */
     @Private
     private void setCluster(Cluster cluster) {
         this.cluster = cluster;
@@ -643,6 +653,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
 
     /**
      * Set the priority of a running job.
+     *
      * @param jobPriority the new priority for the job.
      * @throws IOException
      */
@@ -672,8 +683,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
     /**
      * Set the priority of a running job.
      *
-     * @param jobPriority
-     *          the new priority for the job.
+     * @param jobPriority the new priority for the job.
      * @throws IOException
      */
     public void setPriorityAsInteger(int jobPriority) throws IOException,
@@ -760,7 +770,8 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
 
     /**
      * Kill indicated task attempt.
-     * @param taskId the id of the task to kill.
+     *
+     * @param taskId     the id of the task to kill.
      * @param shouldFail if <code>true</code> the task is failed and added
      *                   to failed tasks list, otherwise it is just killed,
      *                   w/o affecting job failure status.
@@ -826,6 +837,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
 
     /**
      * Gets the diagnostic messages for a given task attempt.
+     *
      * @param taskid
      * @return the list of diagnostic messages for the task
      * @throws IOException
@@ -843,6 +855,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
 
     /**
      * Set the number of reduce tasks for the job.
+     *
      * @param tasks the number of reduce tasks
      * @throws IllegalStateException if the job is submitted
      */
@@ -864,6 +877,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
 
     /**
      * Set the {@link InputFormat} for the job.
+     *
      * @param cls the <code>InputFormat</code> to use
      * @throws IllegalStateException if the job is submitted
      */
@@ -876,6 +890,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
 
     /**
      * Set the {@link OutputFormat} for the job.
+     *
      * @param cls the <code>OutputFormat</code> to use
      * @throws IllegalStateException if the job is submitted
      */
@@ -888,6 +903,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
 
     /**
      * Set the {@link Mapper} for the job.
+     *
      * @param cls the <code>Mapper</code> to use
      * @throws IllegalStateException if the job is submitted
      */
@@ -899,6 +915,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
 
     /**
      * Set the Jar by finding where a given class came from.
+     *
      * @param cls the example class
      */
     public void setJarByClass(Class<?> cls) {
@@ -926,6 +943,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
 
     /**
      * Set the combiner class for the job.
+     *
      * @param cls the combiner to use
      * @throws IllegalStateException if the job is submitted
      */
@@ -937,22 +955,22 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
 
     /**
      * Set the {@link Reducer} for the job.
+     *
      * @param cls the <code>Reducer</code> to use
      * @throws IllegalStateException if the job is submitted
      */
-    public void setReducerClass(Class<? extends Reducer> cls
-    ) throws IllegalStateException {
+    public void setReducerClass(Class<? extends Reducer> cls) throws IllegalStateException {
         ensureState(JobState.DEFINE);
         conf.setClass(REDUCE_CLASS_ATTR, cls, Reducer.class);
     }
 
     /**
      * Set the {@link Partitioner} for the job.
+     *
      * @param cls the <code>Partitioner</code> to use
      * @throws IllegalStateException if the job is submitted
      */
-    public void setPartitionerClass(Class<? extends Partitioner> cls
-    ) throws IllegalStateException {
+    public void setPartitionerClass(Class<? extends Partitioner> cls) throws IllegalStateException {
         ensureState(JobState.DEFINE);
         conf.setClass(PARTITIONER_CLASS_ATTR, cls,
                 Partitioner.class);
@@ -1028,6 +1046,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
     /**
      * Define the comparator that controls how the keys are sorted before they
      * are passed to the {@link Reducer}.
+     *
      * @param cls the raw comparator
      * @throws IllegalStateException if the job is submitted
      * @see #setCombinerKeyGroupingComparatorClass(Class)
@@ -1042,7 +1061,8 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
      * Define the comparator that controls which keys are grouped together
      * for a single call to
      * {@link Reducer#reduce(Object, Iterable,
-     *                       org.apache.hadoop.mapreduce.Reducer.Context)}
+     * org.apache.hadoop.mapreduce.Reducer.Context)}
+     *
      * @param cls the raw comparator to use
      * @throws IllegalStateException if the job is submitted
      * @see #setCombinerKeyGroupingComparatorClass(Class)
@@ -1113,6 +1133,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
 
     /**
      * Set the given set of archives
+     *
      * @param archives The list of archives that need to be localized
      */
     public void setCacheArchives(URI[] archives) {
@@ -1122,6 +1143,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
 
     /**
      * Set the given set of files
+     *
      * @param files The list of files that need to be localized
      */
     public void setCacheFiles(URI[] files) {
@@ -1131,6 +1153,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
 
     /**
      * Add a archives to be localized
+     *
      * @param uri The uri of the cache to be localized
      */
     public void addCacheArchive(URI uri) {
@@ -1140,6 +1163,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
 
     /**
      * Add a file to be localized
+     *
      * @param uri The uri of the cache to be localized
      */
     public void addCacheFile(URI uri) {
@@ -1150,7 +1174,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
     /**
      * Add an file path to the current set of classpath entries It adds the file
      * to cache as well.
-     *
+     * <p>
      * Files added with this method will not be unpacked while being added to the
      * classpath.
      * To add archives to classpath, use the {@link #addArchiveToClassPath(Path)}
@@ -1167,7 +1191,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
     /**
      * Add an archive path to the current set of classpath entries. It adds the
      * archive to cache as well.
-     *
+     * <p>
      * Archive files will be unpacked and added to the classpath
      * when being distributed.
      *
@@ -1215,6 +1239,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
      * Set whether the system should collect profiler information for some of
      * the tasks in this job? The information is stored in the user log
      * directory.
+     *
      * @param newValue true means it should be gathered
      */
     public void setProfileEnabled(boolean newValue) {
@@ -1226,7 +1251,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
      * Set the profiler configuration arguments. If the string contains a '%s' it
      * will be replaced with the name of the profiling output file when the task
      * runs.
-     *
+     * <p>
      * This value is passed to the task child JVM on the command line.
      *
      * @param value the configuration string
@@ -1239,6 +1264,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
     /**
      * Set the ranges of maps or reduces to profile. setProfileEnabled(true)
      * must also be called.
+     *
      * @param newValue a set of integer ranges of the map ids
      */
     public void setProfileTaskRange(boolean isMap, String newValue) {
@@ -1264,6 +1290,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
     /**
      * Default to the new APIs unless they are explicitly set or the old mapper or
      * reduce attributes are used.
+     *
      * @throws IOException if the configuration is inconsistent
      */
     private void setUseNewAPI() throws IOException {
@@ -1314,8 +1341,8 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
      * the files from job config and take care of things.
      *
      * @param resource The resource that Job Submitter will process later using
-     *          shared cache.
-     * @param conf Configuration to add the resource to
+     *                 shared cache.
+     * @param conf     Configuration to add the resource to
      * @return whether the resource has been added to the configuration
      */
     @Unstable
@@ -1343,8 +1370,8 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
      * add the file to classpath. Intended to be used by user code.
      *
      * @param resource The resource that Job Submitter will process later using
-     *          shared cache.
-     * @param conf Configuration to add the resource to
+     *                 shared cache.
+     * @param conf     Configuration to add the resource to
      * @return whether the resource has been added to the configuration
      */
     @Unstable
@@ -1374,8 +1401,8 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
      * user code.
      *
      * @param resource The resource that Job Submitter will process later using
-     *          shared cache.
-     * @param conf Configuration to add the resource to
+     *                 shared cache.
+     * @param conf     Configuration to add the resource to
      * @return whether the resource has been added to the configuration
      */
     @Unstable
@@ -1400,10 +1427,10 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
      * was previously set, this method will replace the old value with the new
      * provided map.
      *
-     * @param conf Configuration which stores the shared cache upload policies
+     * @param conf     Configuration which stores the shared cache upload policies
      * @param policies A map containing the shared cache upload policies for a set
-     *          of resources. The key is the url of the resource and the value is
-     *          the upload policy. True if it should be uploaded, false otherwise.
+     *                 of resources. The key is the url of the resource and the value is
+     *                 the upload policy. True if it should be uploaded, false otherwise.
      */
     @Unstable
     public static void setFileSharedCacheUploadPolicies(Configuration conf,
@@ -1416,10 +1443,10 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
      * parameter was previously set, this method will replace the old value with
      * the new provided map.
      *
-     * @param conf Configuration which stores the shared cache upload policies
+     * @param conf     Configuration which stores the shared cache upload policies
      * @param policies A map containing the shared cache upload policies for a set
-     *          of resources. The key is the url of the resource and the value is
-     *          the upload policy. True if it should be uploaded, false otherwise.
+     *                 of resources. The key is the url of the resource and the value is
+     *                 the upload policy. True if it should be uploaded, false otherwise.
      */
     @Unstable
     public static void setArchiveSharedCacheUploadPolicies(Configuration conf,
@@ -1437,12 +1464,12 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
      * parameter. If the parameter was previously set, this method will replace
      * the old value with the new provided map.
      *
-     * @param conf Configuration which stores the shared cache upload policies
+     * @param conf     Configuration which stores the shared cache upload policies
      * @param policies A map containing the shared cache upload policies for a set
-     *          of resources. The key is the url of the resource and the value is
-     *          the upload policy. True if it should be uploaded, false otherwise.
+     *                 of resources. The key is the url of the resource and the value is
+     *                 the upload policy. True if it should be uploaded, false otherwise.
      * @param areFiles True if these policies are for files, false if they are for
-     *          archives.
+     *                 archives.
      */
     private static void setSharedCacheUploadPolicies(Configuration conf,
                                                      Map<String, Boolean> policies, boolean areFiles) {
@@ -1466,12 +1493,12 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
     /**
      * Deserialize a map of shared cache upload policies from a config parameter.
      *
-     * @param conf Configuration which stores the shared cache upload policies
+     * @param conf     Configuration which stores the shared cache upload policies
      * @param areFiles True if these policies are for files, false if they are for
-     *          archives.
+     *                 archives.
      * @return A map containing the shared cache upload policies for a set of
-     *         resources. The key is the url of the resource and the value is the
-     *         upload policy. True if it should be uploaded, false otherwise.
+     * resources. The key is the url of the resource and the value is the
+     * upload policy. True if it should be uploaded, false otherwise.
      */
     private static Map<String, Boolean> getSharedCacheUploadPolicies(
             Configuration conf, boolean areFiles) {
@@ -1499,8 +1526,8 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
      *
      * @param conf Configuration which stores the shared cache upload policies
      * @return A map containing the shared cache upload policies for a set of
-     *         resources. The key is the url of the resource and the value is the
-     *         upload policy. True if it should be uploaded, false otherwise.
+     * resources. The key is the url of the resource and the value is the
+     * upload policy. True if it should be uploaded, false otherwise.
      */
     @Unstable
     public static Map<String, Boolean> getFileSharedCacheUploadPolicies(
@@ -1513,8 +1540,8 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
      *
      * @param conf Configuration which stores the shared cache upload policies
      * @return A map containing the shared cache upload policies for a set of
-     *         resources. The key is the url of the resource and the value is the
-     *         upload policy. True if it should be uploaded, false otherwise.
+     * resources. The key is the url of the resource and the value is the
+     * upload policy. True if it should be uploaded, false otherwise.
      */
     @Unstable
     public static Map<String, Boolean> getArchiveSharedCacheUploadPolicies(
@@ -1522,7 +1549,9 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
         return getSharedCacheUploadPolicies(conf, false);
     }
 
-    /** Only for mocking via unit tests. */
+    /**
+     * Only for mocking via unit tests.
+     */
     @Private
     @VisibleForTesting
     synchronized void connect()
@@ -1543,7 +1572,9 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
         return cluster != null;
     }
 
-    /** Only for mocking via unit tests. */
+    /**
+     * Only for mocking via unit tests.
+     */
     @Private
     @VisibleForTesting
     JobSubmitter getJobSubmitter(FileSystem fs,
@@ -1612,6 +1643,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
     /**
      * Monitor a job and print status in real-time as progress is made and tasks
      * fail.
+     *
      * @return true if the job succeeded
      * @throws IOException if communication to the JobTracker fails
      */
@@ -1712,7 +1744,9 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
         }
     }
 
-    /** The interval at which monitorAndPrintJob() prints status */
+    /**
+     * The interval at which monitorAndPrintJob() prints status
+     */
     public static int getProgressPollInterval(Configuration conf) {
         // Read progress monitor poll interval from config. Default is 1 second.
         int progMonitorPollIntervalMillis = conf.getInt(
@@ -1726,7 +1760,9 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
         return progMonitorPollIntervalMillis;
     }
 
-    /** The interval at which waitForCompletion() should check. */
+    /**
+     * The interval at which waitForCompletion() should check.
+     */
     public static int getCompletionPollInterval(Configuration conf) {
         int completionPollIntervalMillis = conf.getInt(
                 COMPLETION_POLL_INTERVAL_KEY, DEFAULT_COMPLETION_POLL_INTERVAL);
@@ -1752,7 +1788,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
     /**
      * Modify the Configuration to set the task output filter.
      *
-     * @param conf the Configuration to modify.
+     * @param conf     the Configuration to modify.
      * @param newValue the value to set.
      */
     public static void setTaskOutputFilter(Configuration conf,
@@ -1770,7 +1806,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
      * Get the reservation to which the job is submitted to, if any
      *
      * @return the reservationId the identifier of the job's reservation, null if
-     *         the job does not have any reservation associated with it
+     * the job does not have any reservation associated with it
      */
     public ReservationId getReservationId() {
         return reservationId;
@@ -1787,6 +1823,7 @@ public class Job extends JobContextImpl implements JobContext, AutoCloseable {
 
     /**
      * Close the <code>Job</code>.
+     *
      * @throws IOException if fail to close.
      */
     @Override
